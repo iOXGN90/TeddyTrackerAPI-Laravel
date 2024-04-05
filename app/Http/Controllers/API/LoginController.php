@@ -19,9 +19,9 @@ class LoginController extends BaseController
     public function login(Request $request): JsonResponse
     {
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])){
-            /** @var \App\Models\MyUserModel $user **/
+            /** @var \App\Models\User $user **/
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')-> accessToken;
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
             $success['name'] =  $user->name;
 
             return $this->sendResponse($success, 'User login successfully.');
@@ -30,6 +30,7 @@ class LoginController extends BaseController
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
     }
+
     public function logout(Request $request)
     {
         if (Auth::user()) {
@@ -39,7 +40,7 @@ class LoginController extends BaseController
                 'success' => true,
                 'message' => 'Logged out successfully',
             ], 200);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Logged out failed',

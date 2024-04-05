@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\TaskController;
 use App\Http\Controllers\API\LoginController;
+use App\Http\Controllers\API\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,12 @@ use App\Http\Controllers\API\LoginController;
 */
 
 
+Route::post('register', [RegisterController::class, 'register']);
+
 Route::post('login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class,'logout'])->middleware('auth:api');;
 
 Route::post('create-task', [TaskController::class, 'create-task']);
 Route::post('update-task', [TaskController::class, 'update-task']);
 Route::get('tasks', [TaskController::class, 'tasks']);
-
+Route::delete('tasks/{id}', [TaskController::class, 'tasks_delete']);
