@@ -14,6 +14,7 @@ class Task extends Model
     protected $guard = [];
     protected $fillable = [
         'admin_id',
+        'subject',
         'task_title',
         'task_instruction',
         'type_of_task',

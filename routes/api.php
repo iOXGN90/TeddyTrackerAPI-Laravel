@@ -24,7 +24,7 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class,'logout'])->middleware('auth:api');;
 
-Route::post('create-task', [TaskController::class, 'create-task']);
-Route::post('update-task', [TaskController::class, 'update-task']);
-Route::get('tasks', [TaskController::class, 'tasks']);
-Route::delete('tasks/{id}', [TaskController::class, 'tasks_delete']);
+Route::post('create-task', [TaskController::class, 'create_task']);
+Route::post('update-task', [TaskController::class, 'update_task']);
+Route::get('tasks', [TaskController::class, 'task_all']);
+Route::delete('tasks/{id}', [TaskController::class, 'task_delete']);
