@@ -2,28 +2,20 @@
 
 namespace App\Models;
 
+use App\Http\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Section extends Model
 {
-    protected $table = 'section';
+    protected $table = 'sections';
 
-    protected $guard = [];
-    protected $fillable =
-    [
-        'task_id',
-        'section_name',
-        'pin_password'
-    ];
+    protected $guarded = [];
 
-    protected $hidden = [
-        'pin_password',
-        'remember_token',
-    ];
-
+    protected $primaryKey = 'section_id';
 
     public function user() : BelongsTo {
         return $this->belongsTo(User::class);

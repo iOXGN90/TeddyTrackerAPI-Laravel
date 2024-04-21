@@ -11,16 +11,7 @@ class Task extends Model
 {
     protected $table = 'task';
 
-    protected $guard = [];
-    protected $fillable = [
-        'admin_id',
-        'subject',
-        'task_title',
-        'task_instruction',
-        'type_of_task',
-        'task_deadline'
-    ];
-
+    protected $guarded = [];
     public function user(): BelongsTo{
         return $this->belongsTo(User::class);
     }

@@ -27,11 +27,12 @@ class TaskController extends Controller
         $success['admin_id'] = $task->admin_id;
         $success['subject'] = $task->subject;
         $success['task_title'] = $task->task_title;
-        $success['task_instruction'] = $task->task_instruction;  // Corrected assignment
+        $success['task_instruction'] = $task->task_instruction;
         $success['type_of_task'] = $task->type_of_task;
         $success['task_deadline'] = $task->task_deadline;
-        return response()->json(['success' => $success], 201); // Adjusted success response
+        return response()->json(['success' => $success], 201);
     }
+
     public function task_all(): JsonResponse
     {
         $task = Task::all();
@@ -42,7 +43,8 @@ class TaskController extends Controller
 
         return response()->json($task, 200);
     }
-    public function get_task($id): JsonResponse
+
+    public function task_get_id($id): JsonResponse
     {
         $task = Task::find($id);
 
@@ -51,5 +53,18 @@ class TaskController extends Controller
         }
 
         return response()->json($task, 200);
+    }
+
+    public function delete_task($id): JsonResponse
+    {
+        $task = Task::find($id);
+
+        if(!$task){
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+
+        $task->delete();
+
+        return response()->json(['message' => 'Section soft deleted successfully'], 200);
     }
 }

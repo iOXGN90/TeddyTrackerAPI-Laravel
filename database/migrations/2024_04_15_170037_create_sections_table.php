@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('section', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id('section_id');
-            $table->integer('task_id');
+            $table->integer('admin_id');
             $table->string('section_name');
-            $table->integer('pin_password');
+            $table->string('pin_password');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('section');
+        Schema::dropIfExists('sections');
     }
 };

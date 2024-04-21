@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\TaskController;
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\SectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +19,25 @@ use App\Http\Controllers\API\RegisterController;
 |
 */
 
+// Start User
+    Route::post('register', [RegisterController::class, 'register']);
+    Route::get('show-admin', [LoginController::class, 'show_all_users']);
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('/logout', [LoginController::class,'logout'])->middleware('auth:api');
+// End User
 
-Route::post('register', [RegisterController::class, 'register']);
+// Start Tasks Method
+    Route::post('create-task', [TaskController::class, 'create_task']);
+    Route::post('update-task', [TaskController::class, 'update_task']);
+    Route::get('tasks', [TaskController::class, 'task_all']);
+    Route::get('tasks/{id}', [TaskController::class, 'task_get_id']);
+    Route::delete('tasks/{id}', [TaskController::class, 'delete_task']);
+// End Tasks Method
 
-Route::post('login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class,'logout'])->middleware('auth:api');;
-
-Route::post('create-task', [TaskController::class, 'create_task']);
-Route::post('update-task', [TaskController::class, 'update_task']);
-Route::get('tasks', [TaskController::class, 'task_all']);
-Route::delete('tasks/{id}', [TaskController::class, 'task_delete']);
+// Start Section Method
+    Route::post('create-section', [SectionController::class, 'create_section']);
+    Route::get('section', [SectionController::class, 'section_all']);
+    Route::delete('delete-section', [SectionController::class, 'delete_section']);
+    Route::post('login-section', [SectionController::class, 'login_section']);
+    Route::post('leave-section', [SectionController::class, 'leave_section']);
+// End Section Method
