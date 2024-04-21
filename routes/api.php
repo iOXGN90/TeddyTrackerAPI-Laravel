@@ -30,8 +30,8 @@ use App\Http\Controllers\API\SectionController;
     Route::post('create-task', [TaskController::class, 'create_task']);
     Route::put('update-task/{id}', [TaskController::class, 'update_task']);
     Route::get('tasks', [TaskController::class, 'task_all']);
-    Route::get('tasks/{id}', [TaskController::class, 'task_get_id']);
-    Route::delete('tasks/{id}', [TaskController::class, 'delete_task']);
+    Route::get('tasks-id/{task_id}', [TaskController::class, 'task_get_id']);
+    Route::delete('tasks/{task_id}', [TaskController::class, 'delete_task']);
 // End Tasks Method
 
 // Start Section Method

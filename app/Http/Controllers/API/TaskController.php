@@ -44,21 +44,25 @@ class TaskController extends Controller
         return response()->json($task, 200);
     }
 
-    public function getTaskById($id): JsonResponse
-{
-    try {
-        $task = Task::findOrFail($id);
-        return response()->json(['task' => $task], 200);
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return response()->json(['error' => 'Task not found'], 404);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Internal Server Error'], 500);
-    }
-}
-
-    public function delete_task($id): JsonResponse
+    public function task_get_id($taskId): JsonResponse
     {
-        $task = Task::find($id);
+        try {
+            $data = Task::where('task_id', $taskId)->first();
+
+            if (!$data) {
+                return response()->json(['error' => 'Data not found'], 404);
+            }
+
+            return response()->json(['data' => $data], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+
+    public function delete_task($task_id): JsonResponse
+    {
+        $task = Task::find($task_id);
 
         if(!$task){
             return response()->json(['message' => 'Task not found'], 404);
