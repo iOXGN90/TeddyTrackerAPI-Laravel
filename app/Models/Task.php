@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Task extends Model
 {
-    protected $table = 'task';
+    protected $table = 'tasks';
 
     protected $guarded = [];
     public function user(): BelongsTo{

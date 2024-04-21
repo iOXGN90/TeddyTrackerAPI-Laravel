@@ -44,16 +44,17 @@ class TaskController extends Controller
         return response()->json($task, 200);
     }
 
-    public function task_get_id($id): JsonResponse
-    {
-        $task = Task::find($id);
-
-        if (!$task) {
-            return response()->json(['message' => 'Task not found'], 404);
-        }
-
-        return response()->json($task, 200);
+    public function getTaskById($id): JsonResponse
+{
+    try {
+        $task = Task::findOrFail($id);
+        return response()->json(['task' => $task], 200);
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->json(['error' => 'Task not found'], 404);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Internal Server Error'], 500);
     }
+}
 
     public function delete_task($id): JsonResponse
     {
@@ -67,4 +68,40 @@ class TaskController extends Controller
 
         return response()->json(['message' => 'Section soft deleted successfully'], 200);
     }
+    public function update_task(Request $request, $id): JsonResponse
+{
+    // Validate the request data
+    $validator = Validator::make($request->all(), [
+        'subject' => 'required',
+        'task_title' => 'required',
+        'task_instruction' => 'required',
+        'type_of_task' => 'required',
+        'task_deadline' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['error' => 'Validation Error.', 'details' => $validator->errors()], 422);
+    }
+
+    // Find the task by ID
+    $task = Task::find($id);
+
+    if (!$task) {
+        return response()->json(['error' => 'Task not found'], 404);
+    }
+
+    // Update the task with the request data
+    $task->update($request->all());
+
+    // Prepare success response
+    $success['admin_id'] = $task->admin_id;
+    $success['subject'] = $task->subject;
+    $success['task_title'] = $task->task_title;
+    $success['task_instruction'] = $task->task_instruction;
+    $success['type_of_task'] = $task->type_of_task;
+    $success['task_deadline'] = $task->task_deadline;
+
+    return response()->json(['success' => $success], 200);
+}
+
 }

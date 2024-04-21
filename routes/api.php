@@ -28,7 +28,7 @@ use App\Http\Controllers\API\SectionController;
 
 // Start Tasks Method
     Route::post('create-task', [TaskController::class, 'create_task']);
-    Route::post('update-task', [TaskController::class, 'update_task']);
+    Route::put('update-task/{id}', [TaskController::class, 'update_task']);
     Route::get('tasks', [TaskController::class, 'task_all']);
     Route::get('tasks/{id}', [TaskController::class, 'task_get_id']);
     Route::delete('tasks/{id}', [TaskController::class, 'delete_task']);
@@ -37,7 +37,7 @@ use App\Http\Controllers\API\SectionController;
 // Start Section Method
     Route::post('create-section', [SectionController::class, 'create_section']);
     Route::get('section', [SectionController::class, 'section_all']);
-    Route::delete('delete-section', [SectionController::class, 'delete_section']);
+    Route::post('delete-section', [SectionController::class, 'delete_section']);
     Route::post('login-section', [SectionController::class, 'login_section']);
     Route::post('leave-section', [SectionController::class, 'leave_section']);
 // End Section Method

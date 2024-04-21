@@ -119,11 +119,18 @@ class SectionController extends Controller
     $section = Section::where('pin_password', $request->pin_password)->first();
 
     if ($section) {
-        // Authentication successful, return section ID
+        // Authentication successful, set section data in a cookie
+        $sectionData = [
+            'section_id' => $section->id,
+            'section_name' => $section->section_name,
+        ];
+        $cookie = Cookie::forever('section_data', json_encode($sectionData)); // Store indefinitely
+
+        // Return success response
         return response()->json([
             'message' => 'Welcome to Section ' . $section->section_name,
-            'Section ID' => $section->section_id,
-        ]);
+            'Section ID' => $section->id,
+        ])->withCookie($cookie);
     } else {
         // Authentication failed
         return response()->json(['error' => 'Invalid Section Credentials'], 401);
