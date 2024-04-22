@@ -73,39 +73,45 @@ class TaskController extends Controller
         return response()->json(['message' => 'Section soft deleted successfully'], 200);
     }
     public function update_task(Request $request, $id): JsonResponse
-{
-    // Validate the request data
-    $validator = Validator::make($request->all(), [
-        'subject' => 'required',
-        'task_title' => 'required',
-        'task_instruction' => 'required',
-        'type_of_task' => 'required',
-        'task_deadline' => 'required'
-    ]);
+    {
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'subject' => 'required',
+            'task_title' => 'required',
+            'task_instruction' => 'required',
+            'type_of_task' => 'required',
+            'task_deadline' => 'required'
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json(['error' => 'Validation Error.', 'details' => $validator->errors()], 422);
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Validation Error.', 'details' => $validator->errors()], 422);
+        }
+
+        // Find the task by ID
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+
+        // Update the task with the request data
+        $task->update($request->all());
+
+        // Prepare success response
+        $success['admin_id'] = $task->admin_id;
+        $success['subject'] = $task->subject;
+        $success['task_title'] = $task->task_title;
+        $success['task_instruction'] = $task->task_instruction;
+        $success['type_of_task'] = $task->type_of_task;
+        $success['task_deadline'] = $task->task_deadline;
+
+        return response()->json(['success' => $success], 200);
     }
 
-    // Find the task by ID
-    $task = Task::find($id);
 
-    if (!$task) {
-        return response()->json(['error' => 'Task not found'], 404);
+    public function task_all_ID($section_id)
+    {
+        $tasks = Task::where('section_id', $section_id)->get();
+        return response()->json($tasks);
     }
-
-    // Update the task with the request data
-    $task->update($request->all());
-
-    // Prepare success response
-    $success['admin_id'] = $task->admin_id;
-    $success['subject'] = $task->subject;
-    $success['task_title'] = $task->task_title;
-    $success['task_instruction'] = $task->task_instruction;
-    $success['type_of_task'] = $task->type_of_task;
-    $success['task_deadline'] = $task->task_deadline;
-
-    return response()->json(['success' => $success], 200);
-}
-
 }

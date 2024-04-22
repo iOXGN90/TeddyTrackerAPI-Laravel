@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('task_title');
             $table->string('task_instruction');
             $table->string('type_of_task');
+            $table->string('status')->default('progress');
             $table->date('task_deadline'); //yyyy-mm-dd
             $table->timestamps();
         });

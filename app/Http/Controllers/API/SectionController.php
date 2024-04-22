@@ -55,7 +55,7 @@ class SectionController extends Controller
         $success['task_ids_created'][] = $section->task_id;
         $success['section_name'] = $section->section_name;
         $success['pin_password'] = $input['pin_password']; // Include the pin_password in the response
-        $success['section_created'] = $section->created;
+        $success['section_created'] = $section->created_at;
 
         return response()->json(['success!' => $success], 201);
     }
@@ -99,43 +99,58 @@ class SectionController extends Controller
         return response()->json(['message' => 'Section soft deleted successfully'], 200);
     }
 
+    public function section_id($adminId)
+    {
+        $sections = Section::where('admin_id', $adminId)->get();
+        return response()->json($sections);
+    }
+
 
 // START VIEW ONLY SECTION
 
 
     // Start View Only Login
     public function login_section(Request $request): JsonResponse
-{
-    // Validate the request
-    $validator = Validator::make($request->all(), [
-        'pin_password' => 'required|string',
-    ]);
+        {
+            // Validate the request
+            $validator = Validator::make($request->all(), [
+                'pin_password' => 'required|string',
+            ]);
 
-    if ($validator->fails()) {
-        return $this->sendError('Validation Error.', $validator->errors());
-    }
+            if ($validator->fails()) {
+                return $this->sendError('Validation Error.', $validator->errors());
+            }
 
-    // Find the section by pin_password
-    $section = Section::where('pin_password', $request->pin_password)->first();
+            // Find the section by pin_password
+            $section = Section::where('pin_password', $request->pin_password)->first();
 
-    if ($section) {
-        // Authentication successful, set section data in a cookie
-        $sectionData = [
-            'section_id' => $section->id,
-            'section_name' => $section->section_name,
-        ];
-        $cookie = Cookie::forever('section_data', json_encode($sectionData)); // Store indefinitely
+            if ($section) {
+                // Retrieve the admin's ID associated with the section
+                $adminId = $section->admin_id;
 
-        // Return success response
-        return response()->json([
-            'message' => 'Welcome to Section ' . $section->section_name,
-            'Section ID' => $section->id,
-        ])->withCookie($cookie);
-    } else {
-        // Authentication failed
-        return response()->json(['error' => 'Invalid Section Credentials'], 401);
-    }
-}
+                // Find the admin by admin ID
+                $admin = User::where('admin_id', $adminId)->first();
+
+                // Authentication successful, set section data in a cookie
+                $sectionData = [
+                    'section_id' => $section->section_id,
+                    'section_name' => $section->section_name,
+                ];
+                $cookie = Cookie::forever('section_data', json_encode($sectionData)); // Store indefinitely
+
+                // Return success response including admin's details
+                return response()->json([
+                    'message' => 'Welcome to Section ' . $section->section_name,
+                    'sectionID' => $section->section_id,
+                    'adminID' => $section->admin_id,
+                    'adminName' => $admin ? $admin->name : 'Not Found',
+                ])->withCookie($cookie);
+            } else {
+                // Authentication failed
+                return response()->json(['error' => 'Invalid Section Credentials'], 401);
+            }
+        }
+
 
     // End View Only Login
 

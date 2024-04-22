@@ -26,18 +26,20 @@ use App\Http\Controllers\API\SectionController;
     Route::post('/logout', [LoginController::class,'logout'])->middleware('auth:api');
 // End User
 
+// Start Section Method
+    Route::post('create-section', [SectionController::class, 'create_section']);
+    Route::post('login-section', [SectionController::class, 'login_section']);
+    Route::post('leave-section', [SectionController::class, 'leave_section']);
+    Route::post('delete-section', [SectionController::class, 'delete_section']);
+    Route::get('section', [SectionController::class, 'section_all']);
+    Route::get('section/{adminId}', [SectionController::class, 'section_id']);
+// End Section Method
+
 // Start Tasks Method
     Route::post('create-task', [TaskController::class, 'create_task']);
     Route::put('update-task/{id}', [TaskController::class, 'update_task']);
     Route::get('tasks', [TaskController::class, 'task_all']);
     Route::get('tasks-id/{task_id}', [TaskController::class, 'task_get_id']);
     Route::delete('tasks/{task_id}', [TaskController::class, 'delete_task']);
+    Route::get('tasks/{section_id}', [TaskController::class, 'task_all_ID']);
 // End Tasks Method
-
-// Start Section Method
-    Route::post('create-section', [SectionController::class, 'create_section']);
-    Route::get('section', [SectionController::class, 'section_all']);
-    Route::post('delete-section', [SectionController::class, 'delete_section']);
-    Route::post('login-section', [SectionController::class, 'login_section']);
-    Route::post('leave-section', [SectionController::class, 'leave_section']);
-// End Section Method
