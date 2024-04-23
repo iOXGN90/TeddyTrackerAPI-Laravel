@@ -117,7 +117,6 @@ class TaskController extends Controller
                 if(!$data){
                     return response()->json(['Error' => 'Data not Found'], 404);
                 }
-
                 return response()->json(['data' => $data], 200);
             } catch (\Exception $e) {
                 return response()->json(['Error' => 'Internal Server Error'], 500);
