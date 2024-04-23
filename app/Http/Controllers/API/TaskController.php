@@ -59,7 +59,6 @@ class TaskController extends Controller
         }
     }
 
-
     public function delete_task($task_id): JsonResponse
     {
         $task = Task::find($task_id);
@@ -108,10 +107,21 @@ class TaskController extends Controller
         return response()->json(['success' => $success], 200);
     }
 
+    // Start Guest View Mode
+        public function task_all_ID($section_id): JsonResponse{
+            try{
+                $data = Task::where('section_id', $section_id)
+                ->where('status', 'progress')
+                ->get();
 
-    public function task_all_ID($section_id)
-    {
-        $tasks = Task::where('section_id', $section_id)->get();
-        return response()->json($tasks);
-    }
+                if(!$data){
+                    return response()->json(['Error' => 'Data not Found'], 404);
+                }
+
+                return response()->json(['data' => $data], 200);
+            } catch (\Exception $e) {
+                return response()->json(['Error' => 'Internal Server Error'], 500);
+            }
+        }
 }
+    // End Guest View Mode
