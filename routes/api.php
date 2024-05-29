@@ -30,7 +30,7 @@ use App\Http\Controllers\API\SectionController;
     Route::post('create-section', [SectionController::class, 'create_section']);
     Route::post('login-section', [SectionController::class, 'login_section']);
     Route::post('leave-section', [SectionController::class, 'leave_section']);
-    Route::post('delete-section', [SectionController::class, 'delete_section']);
+    Route::post('section/{section_id}', [SectionController::class, 'delete_section']);
     Route::get('section', [SectionController::class, 'section_all']);
     Route::get('section/{adminId}', [SectionController::class, 'section_id']);
 // End Section Method

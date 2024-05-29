@@ -85,9 +85,9 @@ class SectionController extends Controller
         return response()->json($section, 200);
     }
 
-    public function delete_section($id): JsonResponse
+    public function delete_section($section_id): JsonResponse
     {
-        $section = Section::find($id);
+        $section = Section::find($section_id);
 
         if (!$section)
         {
