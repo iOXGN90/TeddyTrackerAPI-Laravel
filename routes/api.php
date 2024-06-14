@@ -32,7 +32,7 @@ use App\Http\Controllers\API\SectionController;
     Route::post('leave-section', [SectionController::class, 'leave_section']);
     Route::post('section/{section_id}', [SectionController::class, 'delete_section']);
     Route::get('section', [SectionController::class, 'section_all']);
-    Route::get('section/{adminId}', [SectionController::class, 'section_id']);
+    Route::get('section/{section_id}', [SectionController::class, 'section_id']);
 // End Section Method
 
 // Start Tasks Method

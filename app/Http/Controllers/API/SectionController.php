@@ -96,9 +96,9 @@ class SectionController extends Controller
         return response()->json(['message' => 'Section deleted successfully'], 200);
     }
 
-    public function section_id($adminId)
+    public function section_id($section_id)
     {
-        $sections = Section::where('admin_id', $adminId)->get();
+        $sections = Section::where('admin_id', $section_id)->get();
         return response()->json($sections);
     }
 
@@ -137,7 +137,7 @@ class SectionController extends Controller
 
                 // Return success response including admin's details
                 return response()->json([
-                    'message' => 'Welcome to Section ' . $section->section_name,
+                    'sectionName' => $section->section_name,
                     'sectionID' => $section->section_id,
                     'adminID' => $section->admin_id,
                     'adminName' => $admin ? $admin->name : 'Not Found',
