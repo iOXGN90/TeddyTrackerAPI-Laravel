@@ -59,18 +59,18 @@ class TaskController extends Controller
         }
     }
 
-    public function delete_task($task_id): JsonResponse
+    public function delete_task(Request $request, $task_id): JsonResponse
     {
-        $task = Task::find($task_id);
-
-        if(!$task){
+        $Task = Task::where('task_id', $task_id)->first();
+        if (!$Task)
+        {
             return response()->json(['message' => 'Task not found'], 404);
         }
-
-        $task->delete();
-
-        return response()->json(['message' => 'Section soft deleted successfully'], 200);
+        $Task->delete();
+        return response()->json(['message' => 'Task deleted successfully'], 200);
     }
+
+
     public function update_task(Request $request, $id): JsonResponse
     {
         // Validate the request data

@@ -88,15 +88,12 @@ class SectionController extends Controller
     public function delete_section($section_id): JsonResponse
     {
         $section = Section::find($section_id);
-
         if (!$section)
         {
             return response()->json(['message' => 'Section not found'], 404);
         }
-
-        $section->delete(); // Soft delete the section
-
-        return response()->json(['message' => 'Section soft deleted successfully'], 200);
+        $section->delete();
+        return response()->json(['message' => 'Section deleted successfully'], 200);
     }
 
     public function section_id($adminId)

@@ -42,6 +42,6 @@ use App\Http\Controllers\API\SectionController;
     Route::get('tasks-id/{task_id}', [TaskController::class, 'task_get_id']);
     Route::get('tasks/{section_id}', [TaskController::class, 'task_all_ID']);
     Route::get('tasks-guest/{section_id}', [TaskController::class, 'task_get_section_id']);
-    Route::delete('tasks/{task_id}', [TaskController::class, 'delete_task']);
+    Route::post('tasks/{task_id}', [TaskController::class, 'delete_task']);
 
 // End Tasks Method
